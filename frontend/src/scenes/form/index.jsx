@@ -72,7 +72,7 @@ const NewsFeedWidget = ({ startupCrunchbasePath, bgcolor }) => {
     if (startupCrunchbasePath) {
       console.log("Fetching news for:", startupCrunchbasePath);
 
-      fetch(`http://localhost:5000/news/${startupCrunchbasePath}`)
+      fetch(`${process.env.REACT_APP_API_URL}/news/${startupCrunchbasePath}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -152,7 +152,7 @@ const Form = () => {
         setLoading(false);
       } else {
         // News data is not cached, fetch it and cache the result
-        fetch(`http://localhost:5000/news/${startupCrunchbasePath}`)
+        fetch(`${process.env.REACT_APP_API_URL}/news/${startupCrunchbasePath}`)
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);

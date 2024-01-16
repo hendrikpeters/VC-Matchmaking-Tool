@@ -13,7 +13,7 @@ const ProfitMarginChart = () => {
   const colors = tokens(theme.palette.mode);
 
   useEffect(() => {
-    fetch('http://localhost:5000/profitMargins')
+    fetch(`${process.env.REACT_APP_API_URL}/profitMargins`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

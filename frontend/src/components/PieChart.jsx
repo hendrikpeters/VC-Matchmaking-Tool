@@ -19,7 +19,7 @@ const PieChart = () => {
   );
 
   useEffect(() => {
-    fetch("http://localhost:5000/startups")
+    fetch(`${process.env.REACT_APP_API_URL}/startups`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

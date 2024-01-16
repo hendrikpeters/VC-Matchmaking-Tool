@@ -18,7 +18,7 @@ const StartupRevenueChart = ({ startupId, crunchbasePath }) => {
   useEffect(() => {
     if (startupId) {
       setLoading(true);
-      fetch(`http://localhost:5000/revenues/${startupId}`)
+      fetch(`${process.env.REACT_APP_API_URL}/revenues/${startupId}`)
         .then((response) => response.json())
         .then((revenueData) => {
           // No need to apply color here as it is included in the response
@@ -31,7 +31,7 @@ const StartupRevenueChart = ({ startupId, crunchbasePath }) => {
         });
     }
     if (crunchbasePath) {
-        fetch(`http://localhost:5000/news/${crunchbasePath}`)
+        fetch(`${process.env.REACT_APP_API_URL}/news/${crunchbasePath}`)
           .then((response
   ) => response.json())
   .then((newsData) => {

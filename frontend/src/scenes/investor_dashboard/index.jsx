@@ -19,7 +19,7 @@ const InvestorDashboard = () => {
 
 // An array of dataset URLs or identifiers
 const datasetUrls = [
-  "http://localhost:5000/startups",
+  `${process.env.REACT_APP_API_URL}/startups`,
   //"http://localhost:5000/companies",
   // Add more dataset URLs or identifiers as needed
 ];
