@@ -2,51 +2,16 @@ const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 const axios = require('axios');
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'matchmaking_db'
-});
-
-// New route for Crunchbase news
-app.get('/news/:organization', async (req, res) => {
-    const organization = req.params.organization;
-    try {
-        let data = JSON.stringify({ "card_lookups": [] });
-        let config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: `https://www.crunchbase.com/v4/data/entities/organizations/${organization}/overrides?field_ids=%5B%22identifier%22,%22
-      layout_id%22,%22facet_ids%22,%22title%22,%22short_description%22,%22is_locked%22%5D&section_ids=%5B%22timeline%22%5D`,
-            headers: {
-                'content-type': 'application/json',
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
-            },
-            data: data
-        };
-        const response = await axios.request(config);
-        const news = response.data.cards.overview_timeline.entities
-            .filter(item => item.properties.entity_def_id === "press_reference") // Filter out items with entityDefId other than "press_reference"
-            .map((item) => {
-                const article = item.properties;
-                
-                const url = article.activity_properties.url?.value; // Add a check for the existence of the url property
-                return {
-                    title: article.activity_properties.title,
-                    url: url ? url : "", // Use a default value if url is undefined
-                    date: article.activity_date,
-                };
-            });
-        res.json(news);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(error.message)
-    }
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
 
 app.get('/startups', (req, res) => {
@@ -174,25 +139,44 @@ app.get('/profitMargins', (req, res) => {
     });
 });
 
-
-
+app.get('/news/:organization', async (req, res) => {
+    const organization = req.params.organization;
+    try {
+        let data = JSON.stringify({ "card_lookups": [] });
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `https://www.crunchbase.com/v4/data/entities/organizations/${organization}/overrides?field_ids=%5B%22identifier%22,%22
+      layout_id%22,%22facet_ids%22,%22title%22,%22short_description%22,%22is_locked%22%5D&section_ids=%5B%22timeline%22%5D`,
+            headers: {
+                'content-type': 'application/json',
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
+            },
+            data: data
+        };
+        const response = await axios.request(config);
+        const news = response.data.cards.overview_timeline.entities
+            .filter(item => item.properties.entity_def_id === "press_reference") // Filter out items with entityDefId other than "press_reference"
+            .map((item) => {
+                const article = item.properties;
+                
+                const url = article.activity_properties.url?.value; // Add a check for the existence of the url property
+                return {
+                    title: article.activity_properties.title,
+                    url: url ? url : "", // Use a default value if url is undefined
+                    date: article.activity_date,
+                };
+            });
+        res.json(news);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(error.message)
+    }
+});
 
 db.connect(err => {
     if (err) throw err;
     console.log('Connected to MySQL Database...');
-});
-
-// Sample route
-/* app.get('/api/data', (req, res) => {
-  const sqlQuery = 'SELECT * FROM your_table'; // Update with your SQL query
-  db.query(sqlQuery, (err, results) => {
-    if (err) throw err;
-    res.json(results);
-  });
-}); */
-
-app.get('/', (req, res) => {
-    return res.send('Hello World!');
 });
 
 const PORT = 5000;
