@@ -7,6 +7,7 @@ The web application is designed to provide actionable insights and data-driven d
 ## Screenshots
 
 ![App Screenshot](https://i.imgur.com/F9F1Rb8.png)
+![App Screenshot 2](https://i.imgur.com/dpDh5aZ.png)
 
 
 ## Tech Stack
