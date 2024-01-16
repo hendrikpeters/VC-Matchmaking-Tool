@@ -240,7 +240,7 @@ const Form = () => {
                       paddingBottom: theme.spacing(1.5),
                     },
                     ".MuiListItemText-primary": {
-                      fontSize: "1.1rem", // Adjust main text font size as needed
+                      fontSize: "1.1rem",
                     },
                     ".MuiListItemText-secondary": {
                       fontSize: industryFontSize,
@@ -305,12 +305,7 @@ const Form = () => {
                   startup={selectedStartup}
                   bgcolor={colors.primary[500]}
                 />
-                {/* <NewsFeedWidget
-                  startup={selectedStartup}
-                  bgcolor={colors.primary[500]}
-                /> */}
               </Box>
-              {/* <Divider orientation="vertical" flexItem /> */}
               <Box pr={2} pt={2} pb={2} width={300} maxWidth="100%">
                 <NewsFeedWidget
                   startupCrunchbasePath={selectedStartupCrunchbasePath}
