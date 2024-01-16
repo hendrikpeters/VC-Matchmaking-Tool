@@ -18,6 +18,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+        console.log(process.env.REACT_APP_API_URL);
         return response.json();
       })
       .then(financialData => {

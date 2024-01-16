@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "git": "^0.1.5"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
