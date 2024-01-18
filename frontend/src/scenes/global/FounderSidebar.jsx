@@ -4,7 +4,6 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
@@ -120,7 +119,7 @@ const FounderSidebar = () => {
             />
             <Item
               title="Matches"
-              to="/founder"
+              to="/founder/matches"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

@@ -174,6 +174,13 @@ app.get('/news/:organization', async (req, res) => {
     }
 });
 
+app.get('/investors', (req, res) => {
+    db.query('SELECT * FROM investors', (err, data) => {
+        if (err) throw err;
+        return res.json(data)
+    });
+});
+
 db.connect(err => {
     if (err) throw err;
     console.log('Connected to MySQL Database...');

@@ -95,12 +95,12 @@ const NewsFeedWidget = ({ startupCrunchbasePath, bgcolor }) => {
     }
   }, [startupCrunchbasePath]);
 
-  if (loading) return <div>Loading news...</div>;
+  if (loading) return <div></div>;
   if (error) return <div>Error: {error}</div>;
 
   if (!news.length) {
     console.log("No news available for:", startupCrunchbasePath); // Debugging
-    return <div>No news available.</div>;
+    return <div></div>;
   }
 
   return (
@@ -130,7 +130,7 @@ const NewsFeedWidget = ({ startupCrunchbasePath, bgcolor }) => {
   );
 };
 
-const Form = () => {
+const InvestorMatches = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [startups, setStartups] = useState([]);
@@ -322,4 +322,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default InvestorMatches;

@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { format } from 'd3-format';
 
-const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+const RevenueLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const [lineData, setLineData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -171,4 +171,4 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   );
 };
 
-export default LineChart;
+export default RevenueLineChart;

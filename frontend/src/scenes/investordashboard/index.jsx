@@ -2,12 +2,10 @@ import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
-import BarChart from "../../components/BarChart";
+import RevenueLineChart from "../../components/RevenueLineChart";
 import PieChart from "../../components/PieChart";
 import { useState, useEffect } from 'react';
 import CAGRBarChart from '../../components/CAGRBarChart'
-import ProfitMarginChart from "../../components/ProfitMarginChart";
 
 const InvestorDashboard = () => {
   const theme = useTheme();
@@ -105,7 +103,7 @@ useEffect(() => {
             </Box>
           </Box>
           <Box height="250px" m="-20px 0 0 0">
-            <LineChart/>
+            <RevenueLineChart/>
           </Box>
         </Box>
         <Box
