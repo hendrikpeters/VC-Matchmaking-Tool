@@ -26,7 +26,7 @@ app.get('/revenues', (req, res) => {
       SELECT fd.startup_id, s.startup_name, s.color, fd.year, SUM(fd.revenue) as revenue
       FROM financial_data fd
       INNER JOIN startups s ON fd.startup_id = s.id
-      WHERE fd.year BETWEEN 2019 AND 2022
+      WHERE fd.year BETWEEN 2016 AND 2022
       GROUP BY fd.startup_id, s.startup_name, s.color, fd.year
       ORDER BY fd.startup_id, fd.year;
     `;

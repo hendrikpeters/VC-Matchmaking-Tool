@@ -6,7 +6,7 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
+import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -109,14 +109,21 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Performance"
+              title="Performance Dashboard"
               to="/investor"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Matches"
+              title="Your Matches"
+              to="/investor/matches"
+              icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Preferences"
               to="/investor/matches"
               icon={<ContactsOutlinedIcon />}
               selected={selected}

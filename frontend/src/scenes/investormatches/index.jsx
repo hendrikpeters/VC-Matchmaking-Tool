@@ -213,7 +213,7 @@ const InvestorMatches = () => {
   return (
     <Box display="flex" m="20px">
       <Box flexGrow={1}>
-        <Header title="Your matches" subtitle="Check out your latest matches" />
+        <Header title="Your Matches" subtitle="Check out your latest matches" />
         <Box
           display="flex"
           justifyContent="center"

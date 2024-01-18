@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ResponsiveBar } from '@nivo/bar';
-import { useTheme } from '@mui/material';
-import { tokens } from '../theme';
+import React, { useState, useEffect } from "react";
+import { ResponsiveBar } from "@nivo/bar";
+import { useTheme } from "@mui/material";
+import { tokens } from "../theme";
 
 const ProfitMarginChart = () => {
   const [data, setData] = useState([]);
@@ -14,23 +14,23 @@ const ProfitMarginChart = () => {
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/profitMargins`)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         // Assuming all objects have the same keys for startups
         const startupNames = Object.keys(data[0]).filter(
-          key => key !== 'year' && key !== 'color'
+          (key) => key !== "year" && key !== "color"
         );
 
         setKeys(startupNames); // Set the keys for the bar chart dynamically
         setData(data); // Set the data for the bar chart
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error.message);
         setLoading(false);
       });
@@ -80,13 +80,17 @@ const ProfitMarginChart = () => {
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}
       groupMode="grouped"
-      valueScale={{ type: 'linear' }}
-      indexScale={{ type: 'band', round: true }}
-      colors={(bar) => bar.data.color}
-      borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+      valueScale={{ type: "linear" }}
+      indexScale={{ type: "band", round: true }}
+      colors={(bar) => {
+        console.log("Bar data:", bar.data); // Debugging: Log to see the data structure
+        const barColor = `#${bar.data.color}`
+        return barColor ? barColor : "red"; // Fallback to red if no color specified
+      }}
+      borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
       yScale={{
-        type: 'symlog',
-        max: 'auto'
+        type: "symlog",
+        max: "auto",
       }}
       axisTop={null}
       axisRight={null}
@@ -94,48 +98,50 @@ const ProfitMarginChart = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: 'Year',
-        legendPosition: 'middle',
-        legendOffset: 32
+        legend: "Year",
+        legendPosition: "middle",
+        legendOffset: 32,
       }}
       axisLeft={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        tickValues: [-10000 , -2000, -100, 0, 10],
-        legend: 'Profit Margin (%)',
-        legendPosition: 'middle',
-        legendOffset: -40
+        tickValues: [-10000, -2000, -100, 0, 10],
+        legend: "Profit Margin (%)",
+        legendPosition: "middle",
+        legendOffset: -40,
       }}
       labelSkipWidth={12}
       labelSkipHeight={12}
-      labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+      labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
       legends={[
         {
-          dataFrom: 'keys',
-          anchor: 'bottom-right',
-          direction: 'column',
+          dataFrom: "keys",
+          anchor: "bottom-right",
+          direction: "column",
           justify: false,
           translateX: 120,
           translateY: 0,
           itemsSpacing: 2,
           itemWidth: 100,
           itemHeight: 20,
-          itemDirection: 'left-to-right',
+          itemDirection: "left-to-right",
           itemOpacity: 0.85,
           symbolSize: 20,
           effects: [
             {
-              on: 'hover',
+              on: "hover",
               style: {
-                itemOpacity: 1
-              }
-            }
-          ]
-        }
+                itemOpacity: 1,
+              },
+            },
+          ],
+        },
       ]}
       role="application"
-      barAriaLabel={(e) => `${e.id}: ${e.formattedValue} in year: ${e.indexValue}`}
+      barAriaLabel={(e) =>
+        `${e.id}: ${e.formattedValue} in year: ${e.indexValue}`
+      }
     />
   );
 };

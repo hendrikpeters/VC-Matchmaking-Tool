@@ -126,7 +126,7 @@ const FounderSidebar = () => {
             />
             <Item
               title="Matchmaking"
-              to="/founder"
+              to="/founder/matchmaking"
               icon={<PersonSearchOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

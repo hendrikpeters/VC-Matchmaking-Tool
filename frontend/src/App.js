@@ -8,6 +8,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './theme';
 import InvestorMatches from './scenes/investormatches';
 import FounderMatches from './scenes/foundermatches';
+import Matchmaking from './scenes/matchmaking';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -36,6 +37,7 @@ function App() {
               <Route path="/investor/matches" element={<InvestorMatches />} />
               <Route path="/founder" element={<InvestorDashboard />} /> {/* Update this to founder dashboard when ready */}
               <Route path="/founder/matches" element={<FounderMatches />} /> {/* Update this to founder matches when ready */}
+              <Route path="/founder/matchmaking" element={<Matchmaking />} />
             </Routes>
           </main>
         </div>

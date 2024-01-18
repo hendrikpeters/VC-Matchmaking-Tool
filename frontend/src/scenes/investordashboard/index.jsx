@@ -6,6 +6,7 @@ import RevenueLineChart from "../../components/RevenueLineChart";
 import PieChart from "../../components/PieChart";
 import { useState, useEffect } from 'react';
 import CAGRBarChart from '../../components/CAGRBarChart'
+import ProfitMarginChart from '../../components/ProfitMarginChart'
 
 const InvestorDashboard = () => {
   const theme = useTheme();
@@ -50,7 +51,7 @@ useEffect(() => {
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title="MATCH PERFORMANCES"
+          title="Match Performances"
           subtitle="Get insights on key metrics of your matches"
         />
 
@@ -164,7 +165,7 @@ useEffect(() => {
           backgroundColor={colors.primary[400]}
           padding="30px"
         >
-        {/* <ProfitMarginChart /> */}
+        <ProfitMarginChart />
         </Box>
       </Box>
     </Box>
