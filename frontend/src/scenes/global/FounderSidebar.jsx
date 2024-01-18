@@ -88,7 +88,7 @@ const FounderSidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/Sam_Altman.jpg`}
+                  src={`../../assets/Katherine_Kellett.jfif`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -99,10 +99,10 @@ const FounderSidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Sam Altman
+                  Katherine Kellett
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  CEO of OpenAI
+                  CFO - Omnipresent Group
                 </Typography>
               </Box>
             </Box>
