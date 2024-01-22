@@ -181,6 +181,13 @@ app.get('/investors', (req, res) => {
     });
 });
 
+app.get('/investors/matches', (req, res) => {
+    db.query('SELECT * FROM investors WHERE logo_path IS NOT NULL', (err, data) => {
+        if (err) throw err;
+        return res.json(data);
+    });
+});
+
 db.connect(err => {
     if (err) throw err;
     console.log('Connected to MySQL Database...');

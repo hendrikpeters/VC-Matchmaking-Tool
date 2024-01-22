@@ -38,7 +38,7 @@ const FounderMatches = () => {
 
     useEffect(() => {
         // Fetching all investors
-        fetch("http://localhost:5000/investors")
+        fetch("http://localhost:5000/investors/matches")
             .then((response) => response.json())
             .then((investorData) => {
                 setInvestors(investorData);
