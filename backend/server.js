@@ -188,6 +188,35 @@ app.get('/investors/matches', (req, res) => {
     });
 });
 
+app.get('/investments/:investor', (req, res) => {
+    const investor = req.params.investor;
+    const series = req.query.series || 'series_a'; // You can still use query for series
+
+    const query = `SELECT * FROM funding_rounds WHERE investment_type = ?`;
+
+    db.query(query, [series], (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);
+            res.status(500).send('Error fetching data');
+            return;
+        }
+
+        const seriesData = {
+            name: series,
+            children: results.map(round => {
+                return {
+                    name: round.funded_organization_name,
+                    loc: round.money_raised,
+                };
+            })
+        };
+
+        res.json(seriesData);
+    });
+});
+
+
+
 db.connect(err => {
     if (err) throw err;
     console.log('Connected to MySQL Database...');
