@@ -159,7 +159,7 @@ app.get('/news/:organization', async (req, res) => {
             .filter(item => item.properties.entity_def_id === "press_reference") // Filter out items with entityDefId other than "press_reference"
             .map((item) => {
                 const article = item.properties;
-                
+
                 const url = article.activity_properties.url?.value; // Add a check for the existence of the url property
                 return {
                     title: article.activity_properties.title,
@@ -211,7 +211,6 @@ app.get('/investments/:investor', (req, res) => {
             return;
         }
 
-        // Assuming results are in the expected format
         const seriesData = {
             name: series,
             children: results.map(round => ({
@@ -222,6 +221,42 @@ app.get('/investments/:investor', (req, res) => {
         };
 
         res.json(seriesData);
+    });
+});
+
+// server.js
+
+app.get('/investments/:investor/types', (req, res) => {
+    const investor = req.params.investor;
+
+    // Ensure the investor variable is appropriately formatted as a JSON string
+    const formattedInvestor = JSON.stringify(investor);
+
+    // Diagnostic: Log the received parameters
+    console.log("Received investor parameter:", investor);
+
+    const query = `
+        SELECT DISTINCT investment_type 
+        FROM funding_rounds 
+        WHERE JSON_CONTAINS(lead_investors, JSON_QUOTE(?))
+        ORDER BY investment_type ASC
+    `;
+
+    // Diagnostic: Log the query and parameters
+    console.log("Executing query:", query);
+    console.log("Parameters:", investor);
+
+
+    db.query(query, [investor], (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);
+            res.status(500).send('Error fetching investment types');
+            return;
+        }
+
+        // Extract the investment types and return them
+        const investmentTypes = results.map(row => row.investment_type);
+        res.json(investmentTypes);
     });
 });
 
