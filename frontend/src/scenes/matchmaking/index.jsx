@@ -14,7 +14,23 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import CirclePacking from "../../components/CirclePacking";
 
-const InvestorDialog = ({ open, onClose, investor }) => {
+const formatCurrencyWithAbbreviation = (amount) => {
+  if (!amount) return "$0";
+  if (amount >= 1e9) {
+    return `$${(amount / 1e9).toFixed(2)}B`;
+  } else if (amount >= 1e6) {
+    return `$${(amount / 1e6).toFixed(2)}M`;
+  } else {
+    return `$${amount.toLocaleString()}`;
+  }
+};
+
+const InvestorDialog = ({
+  open,
+  onClose,
+  investor,
+  totalInvestmentsByType,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -23,6 +39,10 @@ const InvestorDialog = ({ open, onClose, investor }) => {
     fontSize: "18px", // Adjust the font size as needed
     marginBottom: "2px", // Spacing between each detail
   };
+  console.log(totalInvestmentsByType["total"]);
+  console.log(
+    totalInvestmentsByType["series_a"] / totalInvestmentsByType["total"]
+  );
 
   return (
     <Dialog
@@ -37,137 +57,517 @@ const InvestorDialog = ({ open, onClose, investor }) => {
         },
       }}
       fullWidth={true} // Ensures dialog is responsive
-    maxWidth="xxl" // Adjusts the maximum width to extra large
-    maxHeight="xxl" // Adjusts the maximum height to extra large
+      maxWidth="xxl" // Adjusts the maximum width to extra large
+      maxHeight="xxl" // Adjusts the maximum height to extra large
     >
       <DialogTitle sx={{ fontWeight: 600, fontSize: "40px" }}>
         {investor.investor_name}
       </DialogTitle>
-    <DialogContent dividers>
+      <DialogContent dividers>
         <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series A
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_a"}
-                    title="Series A"
-                />
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series A
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_a"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_a"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_a"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series B
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_b"}
-                    title="Series B"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series B
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_b"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_b"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_b"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series C
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_c"}
-                    title="Series C"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series C
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_c"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_c"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_c"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series D
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_d"}
-                    title="Series D"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series D
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_d"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_d"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_d"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series E
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_e"}
-                    title="Series E"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series E
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_e"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_e"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_e"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series F
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_f"}
-                    title="Series F"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series F
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_f"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_f"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_f"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series G
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_g"}
-                    title="Series G"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series G
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_g"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_g"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_g"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series H
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_h"}
-                    title="Series H"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series H
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_h"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_h"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_h"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series I
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_i"}
-                    title="Series I"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series I
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_i"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_i"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_i"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
-            <div>
-                <Typography variant="subtitle1" align="center" style={{ fontSize: "26px" }}>
-                    Series J
-                </Typography>
-                <CirclePacking
-                    investorCrunchbasePath={investor.investor_name + "?series=series_j"}
-                    title="Series J"
-                />
+          </div>
+          <div
+            style={{
+              height: "280px",
+              width: "280px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+              style={{ fontSize: "26px" }}
+            >
+              Series J
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{ fontSize: "16px" }}
+            >
+              Total investment:{" "}
+              {formatCurrencyWithAbbreviation(
+                totalInvestmentsByType["series_j"]
+              )}{" "}
+            </Typography>
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CirclePacking
+                investorCrunchbasePath={
+                  investor.investor_name + "?series=series_j"
+                }
+                scalingRatio={
+                  totalInvestmentsByType["series_j"] /
+                  totalInvestmentsByType["total"]
+                }
+              />
             </div>
+          </div>
         </Box>
         <Box>
-            <Typography
-                variant="h6"
-                sx={{ fontWeight: 500, marginBottom: "20px", fontSize: "24px" }}
-            >
-                Details
-            </Typography>
-            <Typography sx={detailTextStyle}>
-                City: {investor.headquater_city}
-            </Typography>
-            <Typography sx={detailTextStyle}>
-                Country: {investor.headquater_country}
-            </Typography>
-            <Typography sx={detailTextStyle}>
-                Employees: {investor.num_employees}
-            </Typography>
-            <Typography sx={detailTextStyle}>
-                Exits: {investor.num_exits}
-            </Typography>
-            <Typography sx={detailTextStyle}>
-                Investments: {investor.num_investments}
-            </Typography>
-            <Typography sx={detailTextStyle}>
-                Lead Investments: {investor.num_lead_investments}
-            </Typography>
-            <Typography sx={detailTextStyle}>
-                Target Industries: {investor.target_industries}
-            </Typography>
-            {/* Add more fields as needed */}
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 500, marginBottom: "20px", fontSize: "24px" }}
+          >
+            Details
+          </Typography>
+          <Typography sx={detailTextStyle}>
+            City: {investor.headquater_city}
+          </Typography>
+          <Typography sx={detailTextStyle}>
+            Country: {investor.headquater_country}
+          </Typography>
+          <Typography sx={detailTextStyle}>
+            Employees: {investor.num_employees}
+          </Typography>
+          <Typography sx={detailTextStyle}>
+            Exits: {investor.num_exits}
+          </Typography>
+          <Typography sx={detailTextStyle}>
+            Investments: {investor.num_investments}
+          </Typography>
+          <Typography sx={detailTextStyle}>
+            Lead Investments: {investor.num_lead_investments}
+          </Typography>
+          <Typography sx={detailTextStyle}>
+            Target Industries: {investor.target_industries}
+          </Typography>
+          {/* Add more fields as needed */}
         </Box>
-    </DialogContent>
-    <DialogActions>
+      </DialogContent>
+      <DialogActions>
         <Button
           onClick={() => {
             /* logic to handle match */
@@ -190,10 +590,18 @@ const Matchmaking = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [investors, setInvestors] = useState([]);
+  const [totalInvestments, setTotalInvestments] = useState({});
+  const [totalInvestmentsByType, setTotalInvestmentsByType] = useState({});
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedInvestor, setSelectedInvestor] = useState({});
 
   useEffect(() => {
+    fetchInvestors();
+    fetchTotalInvestments();
+    fetchTotalInvestmentsByType();
+  }, []);
+
+  const fetchInvestors = () => {
     fetch("http://localhost:5000/investors")
       .then((response) => response.json())
       .then((data) => {
@@ -229,7 +637,39 @@ const Matchmaking = () => {
         setInvestors(mappedData);
       })
       .catch((error) => console.error("Error fetching investors:", error));
-  }, []);
+  };
+
+  const fetchTotalInvestments = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/investments/total");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      const investments = data.reduce((acc, curr) => {
+        acc[curr.investor_name] = curr.total_investment;
+        return acc;
+      }, {});
+      setTotalInvestments(investments);
+    } catch (error) {
+      console.error("Error fetching total investments:", error);
+    }
+  };
+
+  const fetchTotalInvestmentsByType = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/investments/total/byType"
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setTotalInvestmentsByType(data); // data is already an object with investment types as keys
+    } catch (error) {
+      console.error("Error fetching total investments by type:", error);
+    }
+  };
 
   const handleRowClick = (investor) => {
     setSelectedInvestor(investor);
@@ -321,13 +761,18 @@ const Matchmaking = () => {
           rows={investors}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
+          onRowClick={(param) => handleRowClick(param.row)}
         />
       </Box>
-      <InvestorDialog
-        open={dialogOpen}
-        handleClose={() => setDialogOpen(false)}
-        investor={selectedInvestor}
-      />
+      {dialogOpen && (
+        <InvestorDialog
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+          investor={selectedInvestor}
+          totalInvestments={totalInvestments}
+          totalInvestmentsByType={totalInvestmentsByType}
+        />
+      )}
     </Box>
   );
 };

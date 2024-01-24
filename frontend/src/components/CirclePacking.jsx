@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ResponsiveCirclePacking } from "@nivo/circle-packing";
-import { Box, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
-const CirclePacking = ({ investorCrunchbasePath }) => {
+const CirclePacking = ({ investorCrunchbasePath, scalingRatio }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState(null);
@@ -51,7 +51,7 @@ const CirclePacking = ({ investorCrunchbasePath }) => {
       : colors.blueAccent[500];
 
   return (
-    <div style={{ height: "180px", width: "180px" }}>
+    <div style={{ height: `${scalingRatio*800}px`, width: `${scalingRatio*800}px` }}>
         <ResponsiveCirclePacking
           data={data}
           margin={{ top: 20, right: 20, bottom: 20, left: 20 }}

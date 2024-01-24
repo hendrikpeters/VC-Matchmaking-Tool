@@ -225,9 +225,34 @@ app.get('/investments/:investor', (req, res) => {
     });
 });
 
-
+/* THIS STILL NEED TO BE PERSONALIZED TO INVESTOR NAME */
 app.get('/investments/total', (req, res) => {
-    const query = "SELECT investor_name, SUM(money_raised) as total_investment FROM funding_rounds GROUP BY investor_name";
+    // Accept investment type as a query parameter
+    const investmentType = req.query.type || 'all'; // Default to 'all' if not specified
+
+    let query = "SELECT investor_name, SUM(money_raised) as total_investment FROM funding_rounds ";
+    if (investmentType !== 'all') {
+        query += "WHERE investment_type = ? ";
+    }
+    query += "GROUP BY investor_name";
+
+    db.query(query, investmentType !== 'all' ? [investmentType] : [], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+/* THIS STILL NEED TO BE PERSONALIZED TO INVESTOR NAME */
+app.get('/investments/total/byType', (req, res) => {
+    const query = `
+        SELECT investment_type, SUM(money_raised) as total_investment
+        FROM funding_rounds 
+        GROUP BY investment_type WITH ROLLUP
+    `;
 
     db.query(query, (err, results) => {
         if (err) {
@@ -236,10 +261,14 @@ app.get('/investments/total', (req, res) => {
             return;
         }
 
-        res.json(results);
+        const formattedResults = results.reduce((acc, row) => {
+            acc[row.investment_type || 'total'] = row.total_investment;
+            return acc;
+        }, {});
+
+        res.json(formattedResults);
     });
 });
-
 
 db.connect(err => {
     if (err) throw err;
