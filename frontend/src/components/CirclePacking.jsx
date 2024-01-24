@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { ResponsiveCirclePacking } from "@nivo/circle-packing";
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
 const CirclePacking = ({ investorCrunchbasePath }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);  
-    const [data, setData] = useState(null);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [data, setData] = useState(null);
 
-    useEffect(() => {
-        if (investorCrunchbasePath) {
-            fetch(`http://localhost:5000/investments/${investorCrunchbasePath}`)
-                .then(response => response.json())
-                .then(data => setData(data))
-                .catch(error => console.error('Error fetching data:', error));
-        }
-    }, [investorCrunchbasePath])
+  useEffect(() => {
+    if (investorCrunchbasePath) {
+      fetch(`http://localhost:5000/investments/${investorCrunchbasePath}`)
+        .then((response) => response.json())
+        .then((data) => setData(data))
+        .catch((error) => console.error("Error fetching data:", error));
+    }
+  }, [investorCrunchbasePath]);
 
   if (!data) {
     return <div>Loading...</div>;
@@ -45,22 +45,25 @@ const CirclePacking = ({ investorCrunchbasePath }) => {
     );
   };
 
-  const circleColor = theme.palette.mode === 'dark' ? colors.greenAccent[500] : colors.blueAccent[500];
+  const circleColor =
+    theme.palette.mode === "dark"
+      ? colors.greenAccent[500]
+      : colors.blueAccent[500];
 
   return (
     <div style={{ height: "180px", width: "180px" }}>
-      <ResponsiveCirclePacking
-        data={data}
-        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-        id="name"
-        value="loc"
-        colors={circleColor}
-        childColor={colors.greenAccent[400]}
-        leavesOnly={true}
-        padding={4}
-        labelsSkipRadius={10}
-        tooltip={({ id, value }) => <CustomTooltip id={id} value={value} />}
-      />
+        <ResponsiveCirclePacking
+          data={data}
+          margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          id="name"
+          value="loc"
+          colors={circleColor}
+          childColor={colors.greenAccent[400]}
+          leavesOnly={true}
+          padding={4}
+          labelsSkipRadius={10}
+          tooltip={({ id, value }) => <CustomTooltip id={id} value={value} />}
+        />
     </div>
   );
 };

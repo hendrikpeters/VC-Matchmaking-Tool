@@ -50,7 +50,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series A
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_a"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_a"}
                     title="Series A"
                 />
             </div>
@@ -59,7 +59,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series B
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_b"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_b"}
                     title="Series B"
                 />
             </div>
@@ -68,7 +68,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series C
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_c"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_c"}
                     title="Series C"
                 />
             </div>
@@ -77,7 +77,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series D
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_d"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_d"}
                     title="Series D"
                 />
             </div>
@@ -86,7 +86,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series E
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_e"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_e"}
                     title="Series E"
                 />
             </div>
@@ -95,7 +95,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series F
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_f"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_f"}
                     title="Series F"
                 />
             </div>
@@ -104,7 +104,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series G
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_g"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_g"}
                     title="Series G"
                 />
             </div>
@@ -113,7 +113,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series H
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_h"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_h"}
                     title="Series H"
                 />
             </div>
@@ -122,7 +122,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series I
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_i"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_i"}
                     title="Series I"
                 />
             </div>
@@ -131,7 +131,7 @@ const InvestorDialog = ({ open, onClose, investor }) => {
                     Series J
                 </Typography>
                 <CirclePacking
-                    investorCrunchbasePath={investor.crunchbase_path + "?series=series_j"}
+                    investorCrunchbasePath={investor.investor_name + "?series=series_j"}
                     title="Series J"
                 />
             </div>

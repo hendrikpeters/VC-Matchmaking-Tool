@@ -190,31 +190,55 @@ app.get('/investors/matches', (req, res) => {
 
 app.get('/investments/:investor', (req, res) => {
     const investor = req.params.investor;
-    const series = req.query.series || 'series_a'; // You can still use query for series
+    const series = req.query.series || 'series_a';
 
-    const query = `SELECT * FROM funding_rounds WHERE investment_type = ?`;
+    // Diagnostic: Log the received parameters
+    console.log("Received investor parameter:", investor);
+    console.log("Series:", series);
 
-    db.query(query, [series], (err, results) => {
+    const query = `SELECT * FROM funding_rounds WHERE JSON_CONTAINS(lead_investors, JSON_QUOTE(?)) AND investment_type = ?`;
+
+    // Diagnostic: Log the query and parameters
+    console.log("Executing query:", query);
+    console.log("Parameters:", investor, series);
+
+    db.query(query, [investor, series], (err, results) => {
         if (err) {
             console.error('Database query error:', err);
-            res.status(500).send('Error fetching data');
+
+            // Diagnostic: Send error details in response for debugging
+            res.status(500).send('Error fetching data: ' + err.message);
             return;
         }
 
+        // Assuming results are in the expected format
         const seriesData = {
             name: series,
-            children: results.map(round => {
-                return {
-                    name: round.funded_organization_name,
-                    loc: round.money_raised,
-                };
-            })
+            children: results.map(round => ({
+                name: round.funded_organization_name,
+                loc: round.money_raised,
+                // Additional fields can be added here if necessary
+            }))
         };
 
         res.json(seriesData);
     });
 });
 
+
+app.get('/investments/total', (req, res) => {
+    const query = "SELECT investor_name, SUM(money_raised) as total_investment FROM funding_rounds GROUP BY investor_name";
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        res.json(results);
+    });
+});
 
 
 db.connect(err => {
