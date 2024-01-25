@@ -79,13 +79,28 @@ app.get('/revenues/:startupId', (req, res) => {
 
 app.get('/cagr', (req, res) => {
     const sqlQuery = `
-      SELECT s.id, s.startup_name, s.color, MIN(fd.year) as start_year, MAX(fd.year) as end_year, 
-             MIN(fd.revenue) as start_revenue, MAX(fd.revenue) as end_revenue
-      FROM financial_data fd
-      JOIN startups s ON fd.startup_id = s.id
-      GROUP BY s.id
-      HAVING start_year <> end_year AND start_revenue > 0 AND end_revenue > 0;
-    `;
+    SELECT s.id, 
+    s.startup_name, 
+    s.color, 
+    fd_start.year AS start_year, 
+    fd_end.year AS end_year, 
+    fd_start.revenue AS start_revenue, 
+    fd_end.revenue AS end_revenue
+FROM startups s
+JOIN financial_data fd_start ON s.id = fd_start.startup_id
+JOIN financial_data fd_end ON s.id = fd_end.startup_id
+WHERE fd_start.year = (
+ SELECT MIN(year)
+ FROM financial_data
+ WHERE startup_id = s.id
+)
+AND fd_end.year = (
+ SELECT MAX(year)
+ FROM financial_data
+ WHERE startup_id = s.id
+);
+`;
+
 
     db.query(sqlQuery, (err, results) => {
         if (err) {
@@ -97,6 +112,9 @@ app.get('/cagr', (req, res) => {
         const cagrResults = results.map(row => {
             const numOfYears = row.end_year - row.start_year;
             const cagr = (Math.pow((row.end_revenue / row.start_revenue), 1 / numOfYears) - 1) * 100;
+            if (row.startup_name === "Contentful") {
+                console.log(row, cagr);
+            }
             return {
                 startup_name: row.startup_name,
                 cagr: parseFloat(cagr.toFixed(2)), // Keeping two decimal places for precision
@@ -177,34 +195,35 @@ app.get('/news/:organization', async (req, res) => {
 
 app.get('/cashBalance', (req, res) => {
     const sqlQuery = `
-      SELECT s.startup_name, MAX(s.color) as color, fd.year, SUM(fd.cash) as total_cash
-      FROM financial_data fd
-      JOIN startups s ON fd.startup_id = s.id
-      GROUP BY s.startup_name, fd.year
-      ORDER BY s.startup_name, fd.year;
-    `;
-  
+  SELECT s.startup_name, MAX(s.color) as color, fd.year, SUM(fd.cash) as total_cash
+  FROM financial_data fd
+  JOIN startups s ON fd.startup_id = s.id
+  WHERE fd.year BETWEEN 2018 AND 2022
+  GROUP BY s.startup_name, fd.year
+  ORDER BY s.startup_name, fd.year;
+`;
+
+
     db.query(sqlQuery, (err, results) => {
-      if (err) {
-        console.error(err.message);
-        return res.status(500).json({ error: err.message });
-      }
-  
-      // Transform the data for visualization
-      const transformedData = results.reduce((acc, row) => {
-        let startupData = acc.find(data => data.id === row.startup_name);
-        if (!startupData) {
-          startupData = { id: row.startup_name, color: row.color, data: [] };
-          acc.push(startupData);
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: err.message });
         }
-        startupData.data.push({ x: row.year, y: row.total_cash });
-        return acc;
-      }, []);
-  
-      res.json(transformedData);
+
+        // Transform the data for visualization
+        const transformedData = results.reduce((acc, row) => {
+            let startupData = acc.find(data => data.id === row.startup_name);
+            if (!startupData) {
+                startupData = { id: row.startup_name, color: row.color, data: [] };
+                acc.push(startupData);
+            }
+            startupData.data.push({ x: row.year, y: row.total_cash });
+            return acc;
+        }, []);
+
+        res.json(transformedData);
     });
-  });
-  
+});
 
 app.get('/investors', (req, res) => {
     db.query('SELECT * FROM investors', (err, data) => {

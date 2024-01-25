@@ -106,18 +106,20 @@ const CAGRBarChart = ({ isDashboard = false }) => {
         from: "color",
         modifiers: [["darker", "1.6"]],
       }}
+      enableGridX={false}
+      enableGridY={true}
       axisTop={null}
       axisBottom={{
         tickRotation: 12,
         tickPadding: 8,
       }}
       axisLeft={{
-        tickSize: 15,
+        tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "Revenue CAGR (%)", // changed
+        legend: isDashboard ? undefined : "Revenue CAGR (%)",
         legendPosition: "middle",
-        legendOffset: -50,
+        legendOffset: -40,
       }}
       enableLabel={false}
       labelSkipWidth={12}
