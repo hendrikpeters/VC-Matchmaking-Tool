@@ -1,5 +1,3 @@
-// src/scenes/matchmaking/index.jsx
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -15,8 +13,9 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import InvestmentSeries from "../../components/InvestmentSeries";
+import InvestorDialog from "../../components/InvestorDialog";
 
-const InvestorDialog = ({
+/* const InvestorDialog = ({
   open,
   onClose,
   investor,
@@ -119,7 +118,6 @@ const InvestorDialog = ({
       <DialogActions>
         <Button
           onClick={() => {
-            /* logic to handle match */
           }}
           sx={{
             backgroundColor: colors.greenAccent[700],
@@ -134,7 +132,7 @@ const InvestorDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
+}; */
 
 const Matchmaking = () => {
   const theme = useTheme();
