@@ -114,32 +114,31 @@ app.get('/profitMargins', (req, res) => {
              IF(fd.revenue = 0, 0, (fd.net_income / fd.revenue) * 100) AS profit_margin
       FROM financial_data fd
       INNER JOIN startups s ON fd.startup_id = s.id
-      WHERE fd.year BETWEEN 2019 AND 2022
+      WHERE fd.year BETWEEN 2020 AND 2022
       ORDER BY fd.year, s.startup_name;
     `;
-  
+
     db.query(sqlQuery, (err, results) => {
-      if (err) {
-          console.error(err.message);
-          return res.status(500).json({ error: err.message });
-      }
-  
-      // Rearrange the data for the chart
-      const processedData = results.reduce((acc, { startup_name, year, profit_margin, color }) => {
-        if (!acc[year]) {
-          acc[year] = {};
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: err.message });
         }
-        acc[year][startup_name] = {
-          profitMargin: profit_margin,
-          color: `#${color}`
-        };
-        return acc;
-      }, {});
-  
-      res.json(processedData);
+
+        // Rearrange the data for the chart
+        const processedData = results.reduce((acc, { startup_name, year, profit_margin, color }) => {
+            if (!acc[year]) {
+                acc[year] = {};
+            }
+            acc[year][startup_name] = {
+                profitMargin: profit_margin,
+                color: `#${color}`
+            };
+            return acc;
+        }, {});
+
+        res.json(processedData);
     });
-  });
-  
+});
 
 app.get('/news/:organization', async (req, res) => {
     const organization = req.params.organization;
@@ -175,6 +174,37 @@ app.get('/news/:organization', async (req, res) => {
         res.status(500).send(error.message)
     }
 });
+
+app.get('/cashBalance', (req, res) => {
+    const sqlQuery = `
+      SELECT s.startup_name, MAX(s.color) as color, fd.year, SUM(fd.cash) as total_cash
+      FROM financial_data fd
+      JOIN startups s ON fd.startup_id = s.id
+      GROUP BY s.startup_name, fd.year
+      ORDER BY s.startup_name, fd.year;
+    `;
+  
+    db.query(sqlQuery, (err, results) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).json({ error: err.message });
+      }
+  
+      // Transform the data for visualization
+      const transformedData = results.reduce((acc, row) => {
+        let startupData = acc.find(data => data.id === row.startup_name);
+        if (!startupData) {
+          startupData = { id: row.startup_name, color: row.color, data: [] };
+          acc.push(startupData);
+        }
+        startupData.data.push({ x: row.year, y: row.total_cash });
+        return acc;
+      }, []);
+  
+      res.json(transformedData);
+    });
+  });
+  
 
 app.get('/investors', (req, res) => {
     db.query('SELECT * FROM investors', (err, data) => {
