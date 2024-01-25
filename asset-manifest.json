@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/http//:hendrikpeters.github.io/vc-matchmaking-tool/static/css/main.714dda56.css",
+    "main.js": "/http//:hendrikpeters.github.io/vc-matchmaking-tool/static/js/main.1633ceed.js",
+    "index.html": "/http//:hendrikpeters.github.io/vc-matchmaking-tool/index.html",
+    "main.714dda56.css.map": "/http//:hendrikpeters.github.io/vc-matchmaking-tool/static/css/main.714dda56.css.map",
+    "main.1633ceed.js.map": "/http//:hendrikpeters.github.io/vc-matchmaking-tool/static/js/main.1633ceed.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.714dda56.css",
+    "static/js/main.1633ceed.js"
+  ]
+}
