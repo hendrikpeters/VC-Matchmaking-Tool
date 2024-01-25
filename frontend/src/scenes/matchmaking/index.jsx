@@ -1,3 +1,5 @@
+// src/scenes/matchmaking/index.jsx
+
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -12,43 +14,42 @@ import {
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import CirclePacking from "../../components/CirclePacking";
 import InvestmentSeries from "../../components/InvestmentSeries";
 
 const InvestorDialog = ({
-    open,
-    onClose,
-    investor,
-    totalInvestmentsByType,
-  }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const [investmentTypes, setInvestmentTypes] = useState([]);
+  open,
+  onClose,
+  investor,
+  totalInvestmentsByType,
+}) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [investmentTypes, setInvestmentTypes] = useState([]);
 
-    const fetchInvestmentTypesForInvestor = async () => {
-        try {
-          const response = await fetch(
-            `http://localhost:5000/investments/${investor.investor_name}/types`
-          );
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          setInvestmentTypes(data);
-        } catch (error) {
-          console.error("Error fetching investment types for investor:", error);
-        }
-      };
-  
-    useEffect(() => {  
-      fetchInvestmentTypesForInvestor();
-    }, [investor.investor_name]);
+  const fetchInvestmentTypesForInvestor = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/investments/${investor.investor_name}/types`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setInvestmentTypes(data);
+    } catch (error) {
+      console.error("Error fetching investment types for investor:", error);
+    }
+  };
 
-    console.log(investmentTypes)
-  // Define the style for the typography elements
+  useEffect(() => {
+    fetchInvestmentTypesForInvestor();
+  }, [investor.investor_name]);
+
+  console.log(investmentTypes);
+
   const detailTextStyle = {
-    fontSize: "18px", // Adjust the font size as needed
-    marginBottom: "2px", // Spacing between each detail
+    fontSize: "18px",
+    marginBottom: "2px",
   };
   console.log(totalInvestmentsByType["total"]);
   console.log(
@@ -63,13 +64,13 @@ const InvestorDialog = ({
         style: {
           backgroundColor: colors.primary[400],
           color: colors.grey[100],
-          width: "80%", // Adjust width as needed
-          height: "80%", // Adjust height as needed
+          width: "80%",
+          height: "80%",
         },
       }}
-      fullWidth={true} // Ensures dialog is responsive
-      maxWidth="xxl" // Adjusts the maximum width to extra large
-      maxHeight="xxl" // Adjusts the maximum height to extra large
+      fullWidth={true}
+      maxWidth="xxl"
+      maxHeight="xxl"
     >
       <DialogTitle sx={{ fontWeight: 600, fontSize: "40px" }}>
         {investor.investor_name}
@@ -113,7 +114,6 @@ const InvestorDialog = ({
           <Typography sx={detailTextStyle}>
             Target Industries: {investor.target_industries}
           </Typography>
-          {/* Add more fields as needed */}
         </Box>
       </DialogContent>
       <DialogActions>
@@ -125,8 +125,8 @@ const InvestorDialog = ({
             backgroundColor: colors.greenAccent[700],
             "&:hover": { backgroundColor: colors.greenAccent[800] },
             color: "white",
-            fontSize: "25px", // Increased font size
-            padding: "10px 30px", // Larger button
+            fontSize: "25px",
+            padding: "10px 30px",
           }}
         >
           Match
@@ -135,93 +135,77 @@ const InvestorDialog = ({
     </Dialog>
   );
 };
+
 const Matchmaking = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [investors, setInvestors] = useState([]);
-  const [totalInvestments, setTotalInvestments] = useState({});
   const [totalInvestmentsByType, setTotalInvestmentsByType] = useState({});
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedInvestor, setSelectedInvestor] = useState({});
 
   useEffect(() => {
     fetchInvestors();
-    fetchTotalInvestments();
-    fetchTotalInvestmentsByType();
   }, []);
 
-  const fetchInvestors = () => {
-    fetch("http://localhost:5000/investors")
-      .then((response) => response.json())
-      .then((data) => {
-        const mappedData = data.map((item, index) => {
-          // Check and parse 'target_industries' if it's a valid JSON string
-          let targetIndustries = "";
-          try {
-            if (item.target_industries) {
-              targetIndustries = JSON.parse(item.target_industries).join(", ");
-            }
-          } catch (e) {
-            console.error("Error parsing target_industries:", e);
-          }
-
-          // Check and parse 'investor_type' if it's a valid JSON string
-          let investorType = "";
-          try {
-            if (item.investor_type) {
-              investorType = JSON.parse(item.investor_type).join(", ");
-            }
-          } catch (e) {
-            console.error("Error parsing investor_type:", e);
-          }
-
-          return {
-            ...item,
-            id: item.investor_id || index,
-            target_industries: targetIndustries,
-            investor_type: investorType,
-          };
-        });
-
-        setInvestors(mappedData);
-      })
-      .catch((error) => console.error("Error fetching investors:", error));
-  };
-
-  const fetchTotalInvestments = async () => {
+  const fetchInvestors = async () => {
     try {
-      const response = await fetch("http://localhost:5000/investments/total");
+      const response = await fetch("http://localhost:5000/investors");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      const investments = data.reduce((acc, curr) => {
-        acc[curr.investor_name] = curr.total_investment;
-        return acc;
-      }, {});
-      setTotalInvestments(investments);
+      const mappedData = data.map((item, index) => {
+        let targetIndustries = "";
+        try {
+          if (item.target_industries) {
+            targetIndustries = JSON.parse(item.target_industries).join(", ");
+          }
+        } catch (e) {
+          console.error("Error parsing target_industries:", e);
+        }
+        let investorType = "";
+        try {
+          if (item.investor_type) {
+            investorType = JSON.parse(item.investor_type).join(", ");
+          }
+        } catch (e) {
+          console.error("Error parsing investor_type:", e);
+        }
+        return {
+          ...item,
+          id: item.investor_id || index,
+          target_industries: targetIndustries,
+          investor_type: investorType,
+        };
+      });
+      setInvestors(mappedData);
     } catch (error) {
-      console.error("Error fetching total investments:", error);
+      console.error("Error fetching investors:", error);
     }
   };
 
-  const fetchTotalInvestmentsByType = async () => {
+  const fetchTotalInvestmentsByType = async (investorName) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/investments/total/byType"
+        `http://localhost:5000/investments/${investorName}/total/byType`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setTotalInvestmentsByType(data); // data is already an object with investment types as keys
+      setTotalInvestmentsByType(data);
     } catch (error) {
-      console.error("Error fetching total investments by type:", error);
+      console.error(
+        `Error fetching total investments by type for ${investorName}:`,
+        error
+      );
     }
   };
 
   const handleRowClick = (investor) => {
     setSelectedInvestor(investor);
+    fetchTotalInvestmentsByType(investor.investor_name);
     setDialogOpen(true);
   };
 
@@ -234,16 +218,15 @@ const Matchmaking = () => {
         <a
           href="#"
           onClick={(e) => {
-            e.preventDefault(); // Prevent default link behavior
+            e.preventDefault();
             handleRowClick(params.row);
           }}
-          style={{ color: "white", textDecoration: "none" }} // Styles for the link
+          style={{ color: "white", textDecoration: "none" }}
         >
           {params.value}
         </a>
       ),
     },
-
     { field: "headquater_city", headerName: "City", flex: 0.75 },
     { field: "headquater_country", headerName: "Country", flex: 0.75 },
     {
@@ -266,7 +249,6 @@ const Matchmaking = () => {
       flex: 1.1,
     },
     { field: "target_industries", headerName: "Target Industries", flex: 1.5 },
-    /* { field: "investor_type", headerName: "Investor Type", flex: 1.5 } */
   ];
 
   return (
@@ -281,13 +263,13 @@ const Matchmaking = () => {
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
-            fontSize: "1rem", // Increase the font size of the cell text
+            fontSize: "1rem",
           },
           "& .name-column--cell": {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            fontSize: "1.3rem", // Font size for column headers
+            fontSize: "1.3rem",
             backgroundColor: colors.blueAccent[700],
             borderBottom: "none",
           },
@@ -318,7 +300,7 @@ const Matchmaking = () => {
           open={dialogOpen}
           onClose={() => setDialogOpen(false)}
           investor={selectedInvestor}
-          totalInvestments={totalInvestments}
+          totalInvestments={totalInvestmentsByType["total"]}
           totalInvestmentsByType={totalInvestmentsByType}
         />
       )}

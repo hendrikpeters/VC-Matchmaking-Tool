@@ -51,7 +51,7 @@ const CirclePacking = ({ investorCrunchbasePath, scalingRatio }) => {
       : colors.blueAccent[500];
 
   return (
-    <div style={{ height: `${scalingRatio*800}px`, width: `${scalingRatio*800}px` }}>
+    <div style={{ minHeight: "100px", minWidth: "100px", maxHeight: "210px", maxWidth: "210px", height: `${scalingRatio*600}px`, width: `${scalingRatio*600}px` }}>
         <ResponsiveCirclePacking
           data={data}
           margin={{ top: 20, right: 20, bottom: 20, left: 20 }}

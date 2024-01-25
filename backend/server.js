@@ -192,15 +192,7 @@ app.get('/investments/:investor', (req, res) => {
     const investor = req.params.investor;
     const series = req.query.series || 'series_a';
 
-    // Diagnostic: Log the received parameters
-    console.log("Received investor parameter:", investor);
-    console.log("Series:", series);
-
     const query = `SELECT * FROM funding_rounds WHERE JSON_CONTAINS(lead_investors, JSON_QUOTE(?)) AND investment_type = ?`;
-
-    // Diagnostic: Log the query and parameters
-    console.log("Executing query:", query);
-    console.log("Parameters:", investor, series);
 
     db.query(query, [investor, series], (err, results) => {
         if (err) {
@@ -224,16 +216,8 @@ app.get('/investments/:investor', (req, res) => {
     });
 });
 
-// server.js
-
 app.get('/investments/:investor/types', (req, res) => {
     const investor = req.params.investor;
-
-    // Ensure the investor variable is appropriately formatted as a JSON string
-    const formattedInvestor = JSON.stringify(investor);
-
-    // Diagnostic: Log the received parameters
-    console.log("Received investor parameter:", investor);
 
     const query = `
         SELECT DISTINCT investment_type 
@@ -242,11 +226,6 @@ app.get('/investments/:investor/types', (req, res) => {
         ORDER BY investment_type ASC
     `;
 
-    // Diagnostic: Log the query and parameters
-    console.log("Executing query:", query);
-    console.log("Parameters:", investor);
-
-
     db.query(query, [investor], (err, results) => {
         if (err) {
             console.error('Database query error:', err);
@@ -254,30 +233,8 @@ app.get('/investments/:investor/types', (req, res) => {
             return;
         }
 
-        // Extract the investment types and return them
         const investmentTypes = results.map(row => row.investment_type);
         res.json(investmentTypes);
-    });
-});
-
-/* THIS STILL NEED TO BE PERSONALIZED TO INVESTOR NAME */
-app.get('/investments/total', (req, res) => {
-    // Accept investment type as a query parameter
-    const investmentType = req.query.type || 'all'; // Default to 'all' if not specified
-
-    let query = "SELECT investor_name, SUM(money_raised) as total_investment FROM funding_rounds ";
-    if (investmentType !== 'all') {
-        query += "WHERE investment_type = ? ";
-    }
-    query += "GROUP BY investor_name";
-
-    db.query(query, investmentType !== 'all' ? [investmentType] : [], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.json(results);
     });
 });
 
@@ -290,6 +247,32 @@ app.get('/investments/total/byType', (req, res) => {
     `;
 
     db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        const formattedResults = results.reduce((acc, row) => {
+            acc[row.investment_type || 'total'] = row.total_investment;
+            return acc;
+        }, {});
+
+        res.json(formattedResults);
+    });
+});
+
+app.get('/investments/:investor/total/byType', (req, res) => {
+    const investor = req.params.investor;
+
+    const query = `
+        SELECT investment_type, SUM(money_raised) as total_investment
+        FROM funding_rounds 
+        WHERE JSON_CONTAINS(lead_investors, JSON_QUOTE(?))
+        GROUP BY investment_type WITH ROLLUP
+    `;
+
+    db.query(query, [investor], (err, results) => {
         if (err) {
             console.error('Error executing query:', err);
             res.status(500).send('Internal Server Error');
