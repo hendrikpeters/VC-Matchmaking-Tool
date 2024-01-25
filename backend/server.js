@@ -117,27 +117,29 @@ app.get('/profitMargins', (req, res) => {
       WHERE fd.year BETWEEN 2019 AND 2022
       ORDER BY fd.year, s.startup_name;
     `;
-
+  
     db.query(sqlQuery, (err, results) => {
-        if (err) {
-            console.error(err.message);
-            return res.status(500).json({ error: err.message });
+      if (err) {
+          console.error(err.message);
+          return res.status(500).json({ error: err.message });
+      }
+  
+      // Rearrange the data for the chart
+      const processedData = results.reduce((acc, { startup_name, year, profit_margin, color }) => {
+        if (!acc[year]) {
+          acc[year] = {};
         }
-
-        // Rearrange the data for the bar chart
-        const processedData = results.reduce((acc, { startup_name, year, profit_margin, color }) => {
-            let yearData = acc.find(data => data.year === year);
-            if (!yearData) {
-                yearData = { year, color: `#${color}` };
-                acc.push(yearData);
-            }
-            yearData[startup_name] = profit_margin;
-            return acc;
-        }, []);
-
-        res.json(processedData);
+        acc[year][startup_name] = {
+          profitMargin: profit_margin,
+          color: `#${color}`
+        };
+        return acc;
+      }, {});
+  
+      res.json(processedData);
     });
-});
+  });
+  
 
 app.get('/news/:organization', async (req, res) => {
     const organization = req.params.organization;

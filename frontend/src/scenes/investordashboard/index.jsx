@@ -55,7 +55,7 @@ useEffect(() => {
           subtitle="Get insights on key metrics of your matches"
         />
 
-        <Box>
+        {/* <Box>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -68,7 +68,7 @@ useEffect(() => {
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
             Download Reports
           </Button>
-        </Box>
+        </Box> */}
       </Box>
 
       {/* GRID & CHARTS */}

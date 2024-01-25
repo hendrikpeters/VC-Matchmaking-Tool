@@ -6,9 +6,9 @@ import { tokens } from "../theme";
 const ProfitMarginChart = () => {
   const [data, setData] = useState([]);
   const [keys, setKeys] = useState([]);
+  const [colorsMap, setColorsMap] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -20,14 +20,22 @@ const ProfitMarginChart = () => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then((rawData) => {
+        // Transform the object into an array suitable for nivo bar chart
+        const transformedData = Object.entries(rawData).map(([year, companies]) => {
+          const dataEntry = { year };
+          Object.entries(companies).forEach(([company, { profitMargin, color }]) => {
+            dataEntry[company] = profitMargin;
+            colorsMap[company] = color; // Update colors map
+          });
+          return dataEntry;
+        });
+
         // Assuming all objects have the same keys for startups
-        const startupNames = Object.keys(data[0]).filter(
-          (key) => key !== "year" && key !== "color"
-        );
+        const startupNames = Object.keys(rawData[Object.keys(rawData)[0]]);
 
         setKeys(startupNames); // Set the keys for the bar chart dynamically
-        setData(data); // Set the data for the bar chart
+        setData(transformedData); // Set the data for the bar chart
         setLoading(false);
       })
       .catch((error) => {
@@ -36,13 +44,8 @@ const ProfitMarginChart = () => {
       });
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <ResponsiveBar
@@ -82,11 +85,7 @@ const ProfitMarginChart = () => {
       groupMode="grouped"
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={(bar) => {
-        console.log("Bar data:", bar.data); // Debugging: Log to see the data structure
-        const barColor = `#${bar.data.color}`
-        return barColor ? barColor : "red"; // Fallback to red if no color specified
-      }}
+      colors={(bar) => colorsMap[bar.id]}
       borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
       yScale={{
         type: "symlog",
@@ -106,11 +105,12 @@ const ProfitMarginChart = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        tickValues: [-10000, -2000, -100, 0, 10],
-        legend: "Profit Margin (%)",
+/*         tickValues: [-10000, -2000, -100, 0, 10],
+ */        legend: "Profit Margin (%)",
         legendPosition: "middle",
         legendOffset: -40,
       }}
+      enableLabel={false}
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
@@ -147,3 +147,12 @@ const ProfitMarginChart = () => {
 };
 
 export default ProfitMarginChart;
+
+function generateColorsMap(data) {
+    // Mock function, replace with actual logic
+    const colorsMap = {};
+    data.forEach(item => {
+      colorsMap[item.name] = item.color;
+    });
+    return colorsMap;
+  }
