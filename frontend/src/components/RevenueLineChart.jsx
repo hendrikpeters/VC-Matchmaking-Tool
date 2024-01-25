@@ -104,7 +104,7 @@ const RevenueLineChart = ({ isCustomLineColors = false, isDashboard = false }) =
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",
-        min: "0",
+        min: "5000000",
         max: "auto",
         stacked: false,
         reverse: false,

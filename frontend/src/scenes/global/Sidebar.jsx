@@ -7,6 +7,7 @@ import { tokens } from "../../theme";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
+import TuneIcon from '@mui/icons-material/Tune';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -124,8 +125,8 @@ const Sidebar = () => {
             />
             <Item
               title="Preferences"
-              to="/investor/matches"
-              icon={<ContactsOutlinedIcon />}
+              to="/investor/preferences"
+              icon={<TuneIcon />}
               selected={selected}
               setSelected={setSelected}
             />
