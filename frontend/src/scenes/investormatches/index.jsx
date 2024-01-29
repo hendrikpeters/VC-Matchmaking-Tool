@@ -188,12 +188,12 @@ const InvestorMatches = () => {
 
   useEffect(() => {
     // Fetching all startups
-    fetch("http://localhost:5000/startups")
+    fetch(`${process.env.REACT_APP_API_URL}/startups`)
       .then((response) => response.json())
       .then((startupData) => {
         // Fetching revenue data for all startups
         const revenuePromises = startupData.map((startup) =>
-          fetch(`http://localhost:5000/revenues/${startup.id}`).then((res) =>
+          fetch(`${process.env.REACT_APP_API_URL}/revenues/${startup.id}`).then((res) =>
             res.json()
           )
         );
@@ -262,7 +262,7 @@ const InvestorMatches = () => {
                             alt={startup.startup_name}
                             src={
                               startup.logo_path ||
-                              "../../assets/default_logo.jpg"
+                              "/public/assets/startups/omnipresent.png"
                             }
                           />
                         </ListItemAvatar>

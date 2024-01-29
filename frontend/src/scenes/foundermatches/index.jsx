@@ -38,7 +38,7 @@ const FounderMatches = () => {
 
     useEffect(() => {
         // Fetching all investors
-        fetch("http://localhost:5000/investors/matches")
+        fetch(`${process.env.REACT_APP_API_URL}/investors/matches`)
             .then((response) => response.json())
             .then((investorData) => {
                 setInvestors(investorData);

@@ -128,6 +128,9 @@ const CAGRBarChart = ({ isDashboard = false }) => {
         from: "color",
         modifiers: [["darker", 1.6]],
       }}
+      yScale={{
+        max: "0"
+    }}
       /* legends={[
         {
           dataFrom: "keys",

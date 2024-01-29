@@ -22,7 +22,7 @@ const Matchmaking = () => {
 
   const fetchInvestors = async () => {
     try {
-      const response = await fetch("http://localhost:5000/investors");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/investors`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -60,7 +60,7 @@ const Matchmaking = () => {
   const fetchTotalInvestmentsByType = async (investorName) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/investments/${investorName}/total/byType`
+        `${process.env.REACT_APP_API_URL}/investments/${investorName}/total/byType`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

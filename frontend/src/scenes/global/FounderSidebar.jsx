@@ -110,13 +110,13 @@ const FounderSidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             
-            <Item
+            {/* <Item
               title="Performance"
               to="/founder"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title="Matches"
               to="/founder/matches"

@@ -89,7 +89,7 @@ const CashBalanceChart = () => {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Cash Balance',
+                    legend: 'Working Capital (USD)',
                     legendOffset: -50,
                     legendPosition: 'middle',
                     format: formatYValueToMillions_Axis_Label, // Use the custom format function for axisLeft

@@ -1,5 +1,4 @@
 {
-  "homepage":  "http://hendrikpeters.github.io/vc-matchmaking-tool", 
   "name": "react-webapp",
   "version": "0.1.0",
   "private": true,
@@ -7,12 +6,6 @@
     "@date-io/date-fns": "^3.0.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@fullcalendar/core": "^6.1.10",
-    "@fullcalendar/daygrid": "^6.1.10",
-    "@fullcalendar/interaction": "^6.1.10",
-    "@fullcalendar/list": "^6.1.10",
-    "@fullcalendar/react": "^6.1.10",
-    "@fullcalendar/timegrid": "^6.1.10",
     "@mui/icons-material": "^5.15.1",
     "@mui/lab": "^5.0.0-alpha.162",
     "@mui/material": "^5.15.1",
@@ -43,7 +36,6 @@
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

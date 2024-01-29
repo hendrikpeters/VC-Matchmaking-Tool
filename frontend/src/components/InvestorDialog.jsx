@@ -27,7 +27,7 @@ const InvestorDialog = ({
   const fetchInvestmentTypesForInvestor = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/investments/${investor.investor_name}/types`
+        `${process.env.REACT_APP_API_URL}/investments/${investor.investor_name}/types`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

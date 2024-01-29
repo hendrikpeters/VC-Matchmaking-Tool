@@ -10,7 +10,7 @@ const CirclePacking = ({ investorCrunchbasePath, scalingRatio }) => {
 
   useEffect(() => {
     if (investorCrunchbasePath) {
-      fetch(`http://localhost:5000/investments/${investorCrunchbasePath}`)
+      fetch(`${process.env.REACT_APP_API_URL}/investments/${investorCrunchbasePath}`)
         .then((response) => response.json())
         .then((data) => setData(data))
         .catch((error) => console.error("Error fetching data:", error));
