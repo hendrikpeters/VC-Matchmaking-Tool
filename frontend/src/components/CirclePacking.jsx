@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ResponsiveCirclePacking } from "@nivo/circle-packing";
-import { Box, Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
 const CirclePacking = ({ investorCrunchbasePath, scalingRatio }) => {

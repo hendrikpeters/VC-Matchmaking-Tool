@@ -41,7 +41,8 @@ const InvestorDialog = ({
 
   useEffect(() => {
     fetchInvestmentTypesForInvestor();
-  }, [investor.investor_name]);
+  }, [investor.investor_name, fetchInvestmentTypesForInvestor]);
+  
 
   // Assuming you have a function to format the detail text appropriately
   const formatDetailText = (text) => {

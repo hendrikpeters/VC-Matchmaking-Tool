@@ -7,7 +7,6 @@ import { tokens } from "../../theme";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -80,7 +79,6 @@ const FounderSidebar = () => {
               </Box>
             )}
           </MenuItem>
-
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -107,23 +105,7 @@ const FounderSidebar = () => {
               </Box>
             </Box>
           )}
-
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            
-            {/* <Item
-              title="Performance"
-              to="/founder"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-            <Item
-              title="Matches"
-              to="/founder/matches"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
             <Item
               title="Matchmaking"
               to="/founder/matchmaking"
@@ -131,6 +113,13 @@ const FounderSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Matches"
+              to="/founder/matches"
+              icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />           
           </Box>
         </Menu>
       </ProSidebar>
