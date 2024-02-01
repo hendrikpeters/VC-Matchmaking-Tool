@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ResponsiveBar } from "@nivo/bar";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
+import CustomTooltip from "./CustomToolTip";
 
 const CAGRBarChart = ({ isDashboard = false }) => {
   const [cagrData, setCagrData] = useState([]);
@@ -122,9 +123,9 @@ const CAGRBarChart = ({ isDashboard = false }) => {
         legendOrientation: 'vertical'
       }]}
       role="application"
-      barAriaLabel={(e) => {
-        return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
-      }}
+      tooltip={({ id, value, color, indexValue }) => (
+        <CustomTooltip id={id} indexValue={indexValue} value={value} color={color} formatType={"percentage"} />
+      )}
     />
   );
 };

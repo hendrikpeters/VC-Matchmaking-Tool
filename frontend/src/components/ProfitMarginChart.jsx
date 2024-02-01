@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
+import CustomTooltip from "./CustomToolTip";
 
 const ProfitMarginChart = () => {
   const [data, setData] = useState([]);
@@ -21,7 +22,6 @@ const ProfitMarginChart = () => {
         return response.json();
       })
       .then((rawData) => {
-        // Transform the object into an array suitable for nivo bar chart
         const transformedData = Object.entries(rawData).map(([year, companies]) => {
           const dataEntry = { year };
           Object.entries(companies).forEach(([company, { profitMargin, color }]) => {
@@ -31,11 +31,10 @@ const ProfitMarginChart = () => {
           return dataEntry;
         });
 
-        // Assuming all objects have the same keys for startups
         const startupNames = Object.keys(rawData[Object.keys(rawData)[0]]);
 
-        setKeys(startupNames); // Set the keys for the bar chart dynamically
-        setData(transformedData); // Set the data for the bar chart
+        setKeys(startupNames); 
+        setData(transformedData); 
         setLoading(false);
       })
       .catch((error) => {
@@ -112,8 +111,7 @@ const ProfitMarginChart = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-/*         tickValues: [-10000, -2000, -100, 0, 10],
- */        legend: "Profit Margin (%)",
+        legend: "Profit Margin (%)",
         legendPosition: "middle",
         legendOffset: -48,
       }}
@@ -121,30 +119,6 @@ const ProfitMarginChart = () => {
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
-      /* legends={[
-        {
-          dataFrom: "keys",
-          anchor: "bottom-right",
-          direction: "column",
-          justify: false,
-          translateX: 120,
-          translateY: 0,
-          itemsSpacing: 2,
-          itemWidth: 100,
-          itemHeight: 20,
-          itemDirection: "left-to-right",
-          itemOpacity: 0.85,
-          symbolSize: 20,
-          effects: [
-            {
-              on: "hover",
-              style: {
-                itemOpacity: 1,
-              },
-            },
-          ],
-        },
-      ]} */
       markers={[{
         axis: 'y',
         value: 0,
@@ -155,10 +129,9 @@ const ProfitMarginChart = () => {
         legendOrientation: 'vertical'
       }]}
       role="application"
-      barAriaLabel={(e) =>
-        `${e.id}: ${e.formattedValue} in year: ${e.indexValue}`
-      }
-      
+      tooltip={({ id, value, color, indexValue }) => (
+        <CustomTooltip id={id} indexValue={indexValue} value={value} color={color} formatType={"percentage"} />
+      )}
     />
   );
 };

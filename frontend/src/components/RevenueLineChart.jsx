@@ -3,6 +3,7 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { format } from 'd3-format';
+import CustomTooltip from "./CustomToolTip";
 
 const RevenueLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const [lineData, setLineData] = useState([]);
@@ -142,6 +143,15 @@ const RevenueLineChart = ({ isCustomLineColors = false, isDashboard = false }) =
       enableGridX={false}
       enableGridY={false}
       pointSize={8}
+      tooltip={({ point }) => (
+        <CustomTooltip
+          id={point.serieId}
+          indexValue={point.data.x}
+          value={point.data.y}
+          color={point.serieColor}
+          formatType={"millions"} // Pass the desired format
+        />
+      )}
       pointColor={{ theme: "background" }}
       pointBorderWidth={2}
       pointBorderColor={{ from: "serieColor" }}

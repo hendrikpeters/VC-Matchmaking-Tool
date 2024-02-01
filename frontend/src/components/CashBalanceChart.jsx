@@ -3,6 +3,7 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { format } from "d3-format";
+import CustomTooltip from "./CustomToolTip";
 
 const CashBalanceChart = () => {
   const [data, setData] = useState([]);
@@ -120,6 +121,15 @@ const CashBalanceChart = () => {
       useMesh={true}
       enableGridX={false}
       enableGridY={false}
+      tooltip={({ point }) => (
+        <CustomTooltip
+          id={point.serieId}
+          indexValue={point.data.x}
+          value={point.data.y}
+          color={point.serieColor}
+          formatType={"millions"} // Pass the desired format
+        />
+      )}
     />
   );
 };
