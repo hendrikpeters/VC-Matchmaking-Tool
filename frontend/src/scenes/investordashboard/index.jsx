@@ -1,6 +1,5 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import Header from "../../components/Header";
 import RevenueLineChart from "../../components/RevenueLineChart";
 import PieChart from "../../components/PieChart";
@@ -17,15 +16,9 @@ const InvestorDashboard = () => {
   const [loading, setLoading] = useState({}); // Loading state for each dataset
   const [error, setError] = useState({}); // Error state for each dataset
 
-  // An array of dataset URLs or identifiers
-  const datasetUrls = [
-    `${process.env.REACT_APP_API_URL}/startups`,
-    //"http://localhost:5000/companies",
-    // Add more dataset URLs or identifiers as needed
-  ];
+  const datasetUrls = [`${process.env.REACT_APP_API_URL}/startups`];
 
   useEffect(() => {
-    // Initialize loading state for each dataset
     setLoading(datasetUrls.reduce((acc, url) => ({ ...acc, [url]: true }), {}));
 
     datasetUrls.forEach((url) => {
@@ -41,11 +34,7 @@ const InvestorDashboard = () => {
           setLoading((prevLoading) => ({ ...prevLoading, [url]: false }));
         });
     });
-  }, []); // Empty array means this effect will only run once on mount
-
-  // Now you can access the data for each dataset using `datasets[url]`
-  // Check if data is loading with `loading[url]`
-  // And check if there was an error with `error[url]`
+  }, []);
 
   return (
     <Box m="20px">
@@ -55,21 +44,6 @@ const InvestorDashboard = () => {
           title="Match Performances"
           subtitle="Get insights on key metrics of your matches"
         />
-
-        {/* <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box> */}
       </Box>
 
       {/* GRID & CHARTS */}
@@ -151,13 +125,12 @@ const InvestorDashboard = () => {
           p="10px 15px"
           overflow="auto"
         >
-         <Typography variant="h3" fontWeight="600">
+          <Typography variant="h3" fontWeight="600">
             Profit Margin
-          </Typography>   
+          </Typography>
           <Box height="250px">
-          <ProfitMarginChart />
+            <ProfitMarginChart />
           </Box>
-
         </Box>
         <Box
           gridColumn="span 4"
@@ -166,11 +139,11 @@ const InvestorDashboard = () => {
           p="10px 15px"
           overflow="auto"
         >
-         <Typography variant="h3" fontWeight="600">
+          <Typography variant="h3" fontWeight="600">
             Cash Balance
-          </Typography>   
+          </Typography>
           <Box height="250px">
-          <CashBalanceChart/>
+            <CashBalanceChart />
           </Box>
         </Box>
       </Box>

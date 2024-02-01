@@ -34,11 +34,12 @@ function App() {
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
+              <Route path="/" element={<InvestorDashboard />} />
               <Route path="/investor" element={<InvestorDashboard />} />
               <Route path="/investor/matches" element={<InvestorMatches />} />
-              {<Route path="/investor/preferences" element={<InvestorPreferences />} />}
-              <Route path="/founder" element={<InvestorDashboard />} /> {/* Update this to founder dashboard when ready */}
-              <Route path="/founder/matches" element={<FounderMatches />} /> {/* Update this to founder matches when ready */}
+              <Route path="/investor/preferences" element={<InvestorPreferences />} />
+              <Route path="/founder" element={<Matchmaking />} />
+              <Route path="/founder/matches" element={<FounderMatches />} />
               <Route path="/founder/matchmaking" element={<Matchmaking />} />
             </Routes>
           </main>
