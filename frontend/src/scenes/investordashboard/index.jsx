@@ -113,12 +113,12 @@ const InvestorDashboard = () => {
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
-          p="15px"
+          p="10px 15px"
         >
           <Typography variant="h3" fontWeight="600">
             Revenue CAGR
           </Typography>
-          <Box height="280px">
+          <Box height="250px">
             <CAGRBarChart />
           </Box>
         </Box>
@@ -128,8 +128,8 @@ const InvestorDashboard = () => {
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
-          p="15px"
-          overflow={"auto"}
+          p="10px 15px"
+          overflow="auto"
         >
           <Typography variant="h3" fontWeight="600">
             Industries
@@ -148,16 +148,30 @@ const InvestorDashboard = () => {
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
+          p="10px 15px"
+          overflow="auto"
         >
+         <Typography variant="h3" fontWeight="600">
+            Profit Margin
+          </Typography>   
+          <Box height="250px">
           <ProfitMarginChart />
+          </Box>
 
         </Box>
         <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
+          p="10px 15px"
+          overflow="auto"
         >
-          <CashBalanceChart theme={theme} />
+         <Typography variant="h3" fontWeight="600">
+            Cash Balance
+          </Typography>   
+          <Box height="250px">
+          <CashBalanceChart/>
+          </Box>
         </Box>
       </Box>
     </Box>

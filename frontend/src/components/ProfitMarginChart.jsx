@@ -75,13 +75,18 @@ const ProfitMarginChart = () => {
           },
         },
         legends: {
-          text: {
-            fill: colors.grey[100],
+            text: {
+              fill: colors.grey[100],
+            },
           },
-        },
-      }}
-      margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-      padding={0.3}
+          tooltip: {
+            container: {
+              color: colors.primary[500],
+            },
+          },
+        }}
+        margin={{ top: 20, right: 30, bottom: 38, left: 55 }}
+        padding={0.3}
       groupMode="grouped"
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
@@ -91,6 +96,8 @@ const ProfitMarginChart = () => {
         type: "symlog",
         max: "auto",
       }}
+      enableGridX={false}
+      enableGridY={false}
       axisTop={null}
       axisRight={null}
       axisBottom={{
@@ -108,13 +115,13 @@ const ProfitMarginChart = () => {
 /*         tickValues: [-10000, -2000, -100, 0, 10],
  */        legend: "Profit Margin (%)",
         legendPosition: "middle",
-        legendOffset: -40,
+        legendOffset: -48,
       }}
       enableLabel={false}
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
-      legends={[
+      /* legends={[
         {
           dataFrom: "keys",
           anchor: "bottom-right",
@@ -137,11 +144,21 @@ const ProfitMarginChart = () => {
             },
           ],
         },
-      ]}
+      ]} */
+      markers={[{
+        axis: 'y',
+        value: 0,
+        lineStyle: {
+          stroke: colors.grey[100],
+          strokeWidth: 2
+        },
+        legendOrientation: 'vertical'
+      }]}
       role="application"
       barAriaLabel={(e) =>
         `${e.id}: ${e.formattedValue} in year: ${e.indexValue}`
       }
+      
     />
   );
 };

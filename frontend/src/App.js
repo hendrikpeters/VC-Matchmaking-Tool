@@ -11,8 +11,6 @@ import FounderMatches from './scenes/foundermatches';
 import Matchmaking from './scenes/matchmaking';
 import InvestorPreferences from './scenes/investorpreferences';
 
-/* dummy change */
-
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);

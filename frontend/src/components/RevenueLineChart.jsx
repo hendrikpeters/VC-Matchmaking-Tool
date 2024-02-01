@@ -47,11 +47,19 @@ const RevenueLineChart = ({ isCustomLineColors = false, isDashboard = false }) =
   
     // Custom format function to display y-axis values in millions
     const formatYValueToMillions = value => {
-        return `${format(".3s")(value).replace('G', 'B')}`; // G for Giga (Billion), B for Billion
-      };
-
+        if (Math.abs(value) >= 1e9) {
+            return `${format(".1f")(value / 1e9)}B`; // Format as XX.XB (Billion)
+        } else {
+            return `${format(".1f")(value / 1e6)}M`; // Format as XX.XM (Million)
+        }
+    };
+    
     const formatYValueToMillions_Axis_Label = value => {
-    return `${format(".1s")(value).replace('G', ' Billion')}`; // G for Giga (Billion), B for Billion
+        if (Math.abs(value) >= 1e9) {
+            return `${format(".0f")(value / 1e9)}B`; // Format as XXB (Billion)
+        } else {
+            return `${format(".0f")(value / 1e6)}M`; // Format as XXM (Million)
+        }
     };
 
 
@@ -100,14 +108,12 @@ const RevenueLineChart = ({ isCustomLineColors = false, isDashboard = false }) =
         },
       }}
       colors={(line) => line.color}
-            margin={{ top: 35, right: 175, bottom: 35, left: 100 }}
+            margin={{ top: 35, right: 125, bottom: 38, left: 70 }}
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",
         min: "5000000",
         max: "auto",
-        stacked: false,
-        reverse: false,
       }}
       yFormat={formatYValueToMillions} // Apply the custom format
       curve="linear"
@@ -129,7 +135,7 @@ const RevenueLineChart = ({ isCustomLineColors = false, isDashboard = false }) =
         tickPadding: 5,
         tickRotation: 0,
         legend: isDashboard ? undefined : "Revenue (USD)", // added
-        legendOffset: -80,
+        legendOffset: -50,
         legendPosition: "middle",
         format: formatYValueToMillions_Axis_Label, // Use the custom format function for axisLeft
       }}
@@ -148,12 +154,11 @@ const RevenueLineChart = ({ isCustomLineColors = false, isDashboard = false }) =
           justify: false,
           translateX: 100,
           translateY: 0,
-          itemsSpacing: 0,
+          itemsSpacing: 10,
           itemDirection: "left-to-right",
           itemWidth: 80,
           itemHeight: 20,
-          itemOpacity: 0.75,
-          symbolSize: 12,
+          symbolSize: 22,
           symbolShape: "circle",
           symbolBorderColor: "rgba(0, 0, 0, .5)",
           effects: [

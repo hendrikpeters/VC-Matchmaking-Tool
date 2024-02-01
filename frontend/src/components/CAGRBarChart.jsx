@@ -20,11 +20,10 @@ const CAGRBarChart = ({ isDashboard = false }) => {
         return response.json();
       })
       .then(data => {
-        // Convert data for the bar chart, including the color
         const formattedData = data.map(item => ({
           startup_name: item.startup_name,
           CAGR: item.cagr,
-          color: item.color // Now each item has a color property
+          color: item.color
         }));
 
         setCagrData(formattedData);
@@ -76,38 +75,23 @@ const CAGRBarChart = ({ isDashboard = false }) => {
             fill: colors.grey[100],
           },
         },
+        tooltip: {
+          container: {
+            color: colors.primary[500],
+          },
+        },
       }}
-      margin={{ top: 30, right: 30, bottom: 74, left: 67 }}
+      margin={{ top: 20, right: 30, bottom: 38, left: 55 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
       colors={(bar) => `#${bar.data.color}`}
-      defs={[
-        {
-          id: "dots",
-          type: "patternDots",
-          background: "inherit",
-          color: "#38bcb2",
-          size: 4,
-          padding: 1,
-          stagger: true,
-        },
-        {
-          id: "lines",
-          type: "patternLines",
-          background: "inherit",
-          color: "#eed312",
-          rotation: -45,
-          lineWidth: 6,
-          spacing: 10,
-        },
-      ]}
       borderColor={{
         from: "color",
         modifiers: [["darker", "1.6"]],
       }}
       enableGridX={false}
-      enableGridY={true}
+      enableGridY={false}
       axisTop={null}
       axisBottom={{
         tickRotation: 12,
@@ -119,7 +103,7 @@ const CAGRBarChart = ({ isDashboard = false }) => {
         tickRotation: 0,
         legend: isDashboard ? undefined : "Revenue CAGR (%)",
         legendPosition: "middle",
-        legendOffset: -40,
+        legendOffset: -48,
       }}
       enableLabel={false}
       labelSkipWidth={12}
@@ -128,38 +112,20 @@ const CAGRBarChart = ({ isDashboard = false }) => {
         from: "color",
         modifiers: [["darker", 1.6]],
       }}
-      yScale={{
-        max: "0"
-    }}
-      /* legends={[
-        {
-          dataFrom: "keys",
-          anchor: "down-middle",
-          direction: "column",
-          justify: false,
-          translateX: 170,
-          translateY: 210,
-          itemsSpacing: 2,
-          itemWidth: 100,
-          itemHeight: 20,
-          itemDirection: "left-to-right",
-          itemOpacity: 0.85,
-          symbolSize: 20,
-          effects: [
-            {
-              on: "hover",
-              style: {
-                itemOpacity: 1,
-              },
-            },
-          ],
+      markers={[{
+        axis: 'y',
+        value: 0,
+        lineStyle: {
+          stroke: colors.grey[100],
+          strokeWidth: 2
         },
-      ]} */
+        legendOrientation: 'vertical'
+      }]}
       role="application"
-      barAriaLabel={function (e) {
+      barAriaLabel={(e) => {
         return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
       }}
-      />
+    />
   );
 };
 

@@ -44,13 +44,21 @@ const StartupRevenueChart = ({ startupId, crunchbasePath }) => {
   }, [startupId, crunchbasePath]);
 
   // Custom format function to display y-axis values in millions
-  const formatYValueToMillions = (value) => {
-    return `${format(".3s")(value).replace("G", " B")}`; // G for Giga (Billion), B for Billion
-  };
+  const formatYValueToMillions = value => {
+    if (Math.abs(value) >= 1e9) {
+        return `${format(".1f")(value / 1e9)}B`; // Format as XX.XB (Billion)
+    } else {
+        return `${format(".1f")(value / 1e6)}M`; // Format as XX.XM (Million)
+    }
+};
 
-  const formatYValueToMillions_Axis_Label = (value) => {
-    return `${format(".1s")(value).replace("G", " Billion")}`; // G for Giga (Billion), B for Billion
-  };
+const formatYValueToMillions_Axis_Label = value => {
+    if (Math.abs(value) >= 1e9) {
+        return `${format(".0f")(value / 1e9)}B`; // Format as XXB (Billion)
+    } else {
+        return `${format(".0f")(value / 1e6)}M`; // Format as XXM (Million)
+    }
+};
 
   if (loading) {
     return <div>Loading...</div>;
