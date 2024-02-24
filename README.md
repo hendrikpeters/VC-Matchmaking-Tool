@@ -1,13 +1,12 @@
+# VC Matchmaking tool Concept
 
-# VC Matchmaking tool
-
-The web application is designed to provide actionable insights and data-driven decision-making tools for early-stage startups and potential venture capital investors. It leverages frontend technologies, backend services, and a MySQL database to facilitate connections between startups and investors in the world of entrepreneurship.
+The concept of a web application is designed to provide actionable insights and data-driven decision-making tools for early-stage startups and potential venture capital investors. It leverages frontend technologies, backend services, and a MySQL database to facilitate connections between startups and investors in the world of entrepreneurship.
 
 
 ## Screenshots
 
-![App Screenshot](https://i.imgur.com/F9F1Rb8.png)
-![App Screenshot 2](https://i.imgur.com/dpDh5aZ.png)
+![Founder View Dashboard](https://i.imgur.com/cM2rwTm.png)
+![App Screenshot 2](https://i.imgur.com/vidX3p0.png)
 
 
 ## Tech Stack
